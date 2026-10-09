@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="College · Madrid, Barcelona y Mallorca">
+<meta property="og:description" content="Programa Educación Física, Nutrición y Fisioterapia: recorré el viaje ciudad por ciudad.">
+<meta property="og:image" content="https://college-uy.github.io/media/og.jpg">
+<meta property="og:url" content="https://college-uy.github.io/">
+<meta property="og:type" content="website">
+<title>Recorrido Europa College</title>
+<meta name="description" content="Madrid, Barcelona y Mallorca: el programa de Educación Física, Nutrición y Fisioterapia de College, ciudad por ciudad.">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400;1,14..32,700;1,14..32,800&display=swap" rel="stylesheet">
+<style>
+/* Historias a pantalla completa sobre fondo blanco, como la presentación de College:
+   Inter, gris medio oscuro para el texto y el turquesa de College para lo que resalta.
+   Cada pantalla: foto o video vertical arriba, texto abajo. Una sola paleta clara a propósito. */
+:root{
+  --turq:#01D1B7;       /* turquesa de College (medido del logo) */
+  --turq-ink:#00A893;   /* turquesa un punto más oscuro para texto chico */
+  --turq-tint:#E8FAF7;
+  --text:#4A4A4A;       /* gris medio oscuro */
+  --text-2:#7A7A7A;
+  --line:#E4E7E6;
+  --paper:#FFFFFF;
+  --media-bg:#EEF1F0;
+  --font:"Inter","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%;background:var(--paper);color:var(--text)}
+body{margin:0;font-family:var(--font);overflow:hidden;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+*{box-sizing:border-box}
+b,strong{color:var(--turq);font-weight:700}
+
+.app{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper)}
+.stage{position:relative;width:100%;height:100%;max-width:480px;overflow:hidden;overflow:clip;background:var(--paper);user-select:none;-webkit-user-select:none;touch-action:pan-y}
+@media (min-width:560px){ .app{background:var(--media-bg)} .stage{height:min(100%,920px);border-radius:18px;box-shadow:0 30px 70px rgba(0,0,0,.12)} }
+
+/* ---- cabecera ---- */
+.head{position:absolute;left:0;right:0;top:0;z-index:5;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 8px;background:var(--paper)}
+.bars{display:flex;gap:4px}
+.bar{flex:1;height:3px;border-radius:2px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--turq)}
+.bar.done i{width:100%}
+.tabs{display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;font:600 12px/1 var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--text);background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:7px 11px;cursor:pointer}
+.tab[aria-current="true"]{background:var(--turq);border-color:var(--turq);color:#fff}
+.tab:focus-visible,.nav:focus-visible,.cta:focus-visible,.cred:focus-visible{outline:2px solid var(--turq);outline-offset:2px}
+
+/* ---- pantallas ---- */
+.slide{position:absolute;inset:0;padding:calc(env(safe-area-inset-top,0px) + 74px) 16px calc(env(safe-area-inset-bottom,0px) + 20px);display:flex;flex-direction:column;gap:14px;opacity:0;transition:opacity .35s ease;pointer-events:none;background:var(--paper)}
+.slide.on{opacity:1;pointer-events:auto}
+
+.media{position:relative;flex:1 1 auto;min-height:0;max-height:calc((100vw - 32px) * 4 / 3);border-radius:16px;overflow:hidden;background:var(--media-bg)}
+@media (min-width:480px){ .media{max-height:597px} }
+.media img,.media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.slide.on .media img.kb{animation:kb 9s ease-out forwards}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.07)}}
+.media .rot{position:absolute;left:12px;bottom:12px;font:700 11px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.38);padding:6px 9px;border-radius:999px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+
+.copy{flex:none}
+.kicker{font:700 12px/1.2 var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--turq-ink)}
+.title{font:800 clamp(26px,7.6vw,34px)/1.05 var(--font);letter-spacing:-.02em;color:var(--text);margin:6px 0 0;text-wrap:balance}
+.title em{font-style:italic;color:var(--turq)}
+.text{font:400 15.5px/1.48 var(--font);color:var(--text);margin:8px 0 0}
+
+/* portada (como la tapa de la presentación) */
+.t-portada .copy{text-align:center}
+.t-portada img.logo{height:30px;display:block;margin:0 auto 14px}
+.t-portada .title{font-size:clamp(30px,9vw,40px);text-transform:uppercase;letter-spacing:-.02em}
+.t-portada .title em{display:block;font-size:.72em;line-height:1.02}
+.t-portada .cities{font:500 14px/1 var(--font);letter-spacing:.06em;margin-top:12px;color:var(--text)}
+.t-portada .cities i{color:var(--turq);font-style:normal;font-weight:800;padding:0 4px}
+.t-portada .media{max-height:56%}
+.hint{text-align:center;font:600 11.5px/1 var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--text-2);margin-top:12px}
+.hint span{display:inline-block;animation:nudge 1.6s ease-in-out infinite;color:var(--turq)}
+@keyframes nudge{50%{transform:translateX(6px)}}
+
+/* ruta */
+.legs{list-style:none;margin:16px 0 0;padding:0;position:relative}
+.legs::before{content:"";position:absolute;left:25px;top:22px;bottom:22px;border-left:2px dashed var(--line)}
+.legs li{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:center;padding:8px 0;position:relative}
+.legs .code{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font:700 13px/1 var(--font);letter-spacing:.04em;background:var(--paper);border:2px solid var(--line);color:var(--text-2);position:relative}
+.legs .city .code{border-color:var(--turq);color:var(--turq);background:var(--turq-tint)}
+.legs .nm{font:800 19px/1.1 var(--font);color:var(--text);display:block}
+.legs .ds{font:400 14px/1.3 var(--font);color:var(--text-2)}
+.legs button{all:unset;cursor:pointer;display:contents}
+
+/* paneles de texto */
+.panel .copy{flex:1;min-height:0;overflow:hidden}
+.agenda{margin-top:16px;display:grid;gap:10px}
+.dia{border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.dia h4{margin:0;font:italic 800 18px/1 var(--font);color:var(--turq)}
+.dia p{margin:7px 0 0;font:400 14.5px/1.4 var(--font);color:var(--text);display:grid;grid-template-columns:64px 1fr;gap:6px}
+.dia p span{font:700 11px/1.9 var(--font);letter-spacing:.08em;text-transform:uppercase;color:var(--text-2)}
+.equipo{margin-top:16px;display:grid;gap:14px}
+.persona{display:grid;grid-template-columns:58px 1fr;gap:12px;align-items:center}
+.persona img{width:58px;height:58px;border-radius:50%;object-fit:cover;border:2px solid var(--turq);background:var(--media-bg)}
+.persona small{font:700 11px/1 var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--turq-ink)}
+.persona .nm{display:block;font:800 17px/1.2 var(--font);color:var(--text);margin-top:4px}
+.persona span{display:block;font:400 14px/1.4 var(--font);color:var(--text-2);margin-top:2px}
+
+/* grillas de fotos verticales */
+.grid{flex:1 1 auto;min-height:0;display:grid;gap:8px}
+.grid.c3{grid-template-columns:repeat(3,1fr);grid-auto-rows:1fr}
+.grid.c2{grid-template-columns:repeat(2,1fr);grid-auto-rows:1fr}
+.grid figure{margin:0;position:relative;border-radius:12px;overflow:hidden;background:var(--media-bg);min-height:0}
+.grid img,.grid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.grid figcaption{position:absolute;left:0;right:0;bottom:0;padding:24px 8px 8px;font:700 12.5px/1.15 var(--font);color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.62))}
+.grid figcaption span{display:block;font-weight:400;font-size:11px;opacity:.9;margin-top:2px}
+
+/* cierre */
+.t-cierre .copy{flex:1;display:flex;flex-direction:column}
+.volver{all:unset;cursor:pointer;align-self:flex-start;font:600 13px/1 var(--font);color:var(--text);border:1px solid var(--line);border-radius:999px;padding:9px 13px;margin-bottom:16px}
+.volver:focus-visible{outline:2px solid var(--turq);outline-offset:2px}
+.ctas{display:grid;gap:10px;margin-top:22px;position:relative;z-index:4}
+.cta{display:flex;justify-content:space-between;align-items:center;gap:12px;text-decoration:none;color:#fff;background:var(--turq);border-radius:14px;padding:16px;font:700 16px/1.1 var(--font);border:0;cursor:pointer;text-align:left;width:100%}
+.cta.alt{background:var(--paper);color:var(--text);border:1px solid var(--line)}
+.cta small{font:500 12.5px/1 var(--font);opacity:.9}
+.cta[aria-disabled="true"]{opacity:.55;cursor:default}
+.t-cierre .logo{height:26px;margin-top:auto;align-self:center;opacity:.9}
+.cred{all:unset;cursor:pointer;font:500 11.5px/1.3 var(--font);color:var(--text-2);text-decoration:underline;text-underline-offset:3px;align-self:center;margin-top:12px}
+.creditos{position:absolute;inset:0;z-index:8;background:var(--paper);padding:calc(env(safe-area-inset-top,0px) + 20px) 20px 20px;overflow:auto;font:400 12px/1.45 var(--font);color:var(--text-2)}
+.creditos h3{font:800 18px/1.2 var(--font);color:var(--text);margin:0 0 10px}
+.creditos li{margin-bottom:6px}
+.creditos a{color:var(--turq-ink)}
+
+/* zonas de toque (debajo de los botones de cada pantalla) */
+.nav{position:absolute;top:74px;bottom:0;z-index:3;background:transparent;border:0;padding:0;cursor:pointer}
+.nav.prev{left:0;width:30%}
+.nav.next{right:0;width:70%}
+
+.pausa{position:absolute;z-index:6;left:50%;top:40%;transform:translate(-50%,-50%);font:700 12px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.45);padding:9px 13px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none}
+.stage.paused .pausa{opacity:1}
+
+@media (prefers-reduced-motion:reduce){
+  .slide.on .media img.kb{animation:none}
+  .slide{transition:none}
+  .hint span{animation:none}
+}
+</style>
+
+</head>
+<body>
+<div class="app">
+  <main class="stage" id="stage" aria-roledescription="historias">
+    <div id="slides" aria-live="polite"></div>
+    <button class="nav prev" id="prev" aria-label="Anterior"></button>
+    <button class="nav next" id="next" aria-label="Siguiente"></button>
+    <div class="head">
+      <div class="bars" id="bars"></div>
+      <nav class="tabs" id="tabs" aria-label="Ciudades"></nav>
+    </div>
+    <div class="pausa">En pausa</div>
+    <div class="creditos" id="creditos" hidden></div>
+  </main>
+</div>
+
+<script>
+// ---- Contenido: se cambia acá. Fuente: programa y presentación de College (oct 2026). ----
+const CONTACTO = {
+  whatsapp: "",          // [A CONFIRMAR] número de College, solo dígitos con 598, ej. "59899123456"
+  instagram: "college.uy"
+};
+// Fotos: media/<slug>.jpg (verticales 1200×1600). Videos: media/<slug>.mp4 con póster media/<slug>.jpg.
+const FOTO = s => `media/${s}.jpg`;
+const VIDEO = s => `media/${s}.mp4`;
+// armar_recorrido.py completa estas dos listas con lo que hay en media/ y creditos/.
+const CREDITOS = /*CREDITOS*/[{"slug": "bcn-intro", "tipo": "foto", "titulo": "Barcelona 11 - panoramio", "autor": "Mickey Løgitmark", "licencia": "CC BY 3.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Barcelona_11_-_panoramio.jpg", "resolucion_original": "5992x3360"}, {"slug": "bcn-sagrada-familia", "tipo": "foto", "titulo": "Sagrada Familia, December 2025, Day", "autor": "Hendrik Manuels Stoops Lugo", "licencia": "CC BY 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Sagrada_Familia,_December_2025,_Day.jpg", "resolucion_original": "5792x9528"}, {"slug": "bcn-park-guell", "tipo": "foto", "titulo": "Escalinata de entrada del Park Güell", "autor": "Imelenchon", "licencia": "Public domain", "url_fuente": "https://commons.wikimedia.org/wiki/File:Escalinata_de_entrada_del_Park_G%C3%BCell.jpg", "resolucion_original": "2582x3858"}, {"slug": "bcn-casa-batllo", "tipo": "foto", "titulo": "Casa Batlló, Barcelona, Spain", "autor": "Julian Lupyan", "licencia": "CC0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Casa_Batll%C3%B3,_Barcelona,_Spain.jpg", "resolucion_original": "3526x4490"}, {"slug": "bcn-ramblas", "tipo": "foto", "titulo": "Barcelona - La Rambla - Golden Autumn Holiday Atmosphere", "autor": "Txllxt TxllxT", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Barcelona_-_La_Rambla_-_Golden_Autumn_Holiday_Atmosphere.jpg", "resolucion_original": "2016x3024"}, {"slug": "bcn-gotico", "tipo": "foto", "titulo": "Pont Évêque Barcelone 1", "autor": "Chabe01", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Pont_%C3%89v%C3%AAque_Barcelone_1.jpg", "resolucion_original": "3456x5184"}, {"slug": "bcn-born", "tipo": "foto", "titulo": "Vista lateral de la basílica de Santa María del Mar (Barcelona)", "autor": "Imelenchon", "licencia": "Public domain", "url_fuente": "https://commons.wikimedia.org/wiki/File:Vista_lateral_de_la_bas%C3%ADlica_de_Santa_Mar%C3%ADa_del_Mar_(Barcelona).jpg", "resolucion_original": "4691x6611"}, {"slug": "bcn-car-sant-cugat", "tipo": "foto", "titulo": "Mòdul esportiu del CAR de Sant Cugat del Vallès", "autor": "CAR-Rosa", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:M%C3%B2dul_esportiu_del_CAR_de_Sant_Cugat_del_Vall%C3%A8s.jpg", "resolucion_original": "3000x1996"}, {"slug": "bcn-inefc", "tipo": "foto", "titulo": "316 Institut Nacional d'Educació Física de Catalunya, av. de l'Estadi (Barcelona)", "autor": "Enric", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:316_Institut_Nacional_d%27Educaci%C3%B3_F%C3%ADsica_de_Catalunya,_av._de_l%27Estadi_(Barcelona).jpg", "resolucion_original": "4160x3120"}, {"slug": "bcn-montjuic", "tipo": "foto", "titulo": "Torre de comunicacions de Montjuïc", "autor": "NetAction", "licencia": "CC BY-SA 3.0 es", "url_fuente": "https://commons.wikimedia.org/wiki/File:Torre_de_comunicacions_de_Montju%C3%AFc.jpg", "resolucion_original": "5184x3456"}, {"slug": "bcn-museo-barca", "tipo": "foto", "titulo": "Camp Nou - panoramio (27)", "autor": "Mister No", "licencia": "CC BY 3.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Camp_Nou_-_panoramio_(27).jpg", "resolucion_original": "4000x3000"}, {"slug": "bcn-camp-nou", "tipo": "foto", "titulo": "2014. Camp Nou. Més que un club. Barcelona B40", "autor": "Luis Miguel Bugallo Sánchez (Lmbuga)", "licencia": "CC BY-SA 3.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:2014._Camp_Nou._M%C3%A9s_que_un_club._Barcelona_B40.jpg", "resolucion_original": "5240x2732"}, {"slug": "bcn-palau", "tipo": "foto", "titulo": "FC Barcelona - Rio Natura Monbus", "autor": "Groninger3", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:FC_Barcelona_-_Rio_Natura_Monbus.jpg", "resolucion_original": "3170x2017"}, {"slug": "bcn-circuito", "tipo": "foto", "titulo": "2021 4 Hours of Barcelona - The starting lane", "autor": "United Autosports", "licencia": "CC BY-SA 2.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:2021_4_Hours_of_Barcelona_-_The_starting_lane.jpg", "resolucion_original": "3600x2400"}, {"slug": "bcn-intro-video", "tipo": "video", "titulo": "Tour along the coast", "autor": "Mixkit", "licencia": "Mixkit Stock Video Free License", "url_fuente": "https://mixkit.co/free-stock-video/tour-along-the-coast-4062/", "resolucion_original": "1920x1080"}, {"slug": "bcn-deporte-video", "tipo": "video", "titulo": "Woman running fast on a running track", "autor": "Mixkit", "licencia": "Mixkit Stock Video Free License", "url_fuente": "https://mixkit.co/free-stock-video/woman-running-fast-on-a-running-track-32792/", "resolucion_original": "3840x2160"}, {"slug": "portada", "tipo": "foto", "titulo": "Madrid Gran Via Metropolis (28895530633)", "autor": "Nan Palmero from San Antonio, TX, USA", "licencia": "CC BY 2.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Madrid_Gran_Via_Metropolis_(28895530633).jpg"}, {"slug": "madrid-intro", "tipo": "foto", "titulo": "Plaza Mayor de Madrid - 01", "autor": "Carlos Delgado", "licencia": "CC BY-SA 3.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Plaza_Mayor_de_Madrid_-_01.jpg"}, {"slug": "madrid-palacio-real", "tipo": "foto", "titulo": "Fachada norte del Palacio Real - Madrid 04", "autor": "Javier Perez Montes", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Fachada_norte_del_Palacio_Real_-_Madrid_04.jpg"}, {"slug": "madrid-almudena", "tipo": "foto", "titulo": "Catedral de la Almudena - 130826 211731", "autor": "Barcex", "licencia": "CC BY-SA 3.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Catedral_de_la_Almudena_-_130826_211731.jpg"}, {"slug": "madrid-debod", "tipo": "foto", "titulo": "Templo de Debod - 01", "autor": "Carlos Delgado", "licencia": "CC BY-SA 3.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Templo_de_Debod_-_01.jpg"}, {"slug": "madrid-cibeles", "tipo": "foto", "titulo": "Fuente de Cibeles, Plaza de Cibeles, Madrid, España, 2017-05-18, DD 10", "autor": "Diego Delso", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Fuente_de_Cibeles,_Plaza_de_Cibeles,_Madrid,_Espa%C3%B1a,_2017-05-18,_DD_10.jpg"}, {"slug": "madrid-prado", "tipo": "foto", "titulo": "Museo del Prado 2016 (25185969599)", "autor": "Emilio J. Rodríguez Posada", "licencia": "CC BY-SA 2.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Museo_del_Prado_2016_(25185969599).jpg"}, {"slug": "madrid-retiro", "tipo": "foto", "titulo": "Palacio de Cristal, Retiro, Madrid", "autor": "vpogarcia", "licencia": "CC BY-SA 2.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Palacio_de_Cristal,_Retiro,_Madrid.jpg"}, {"slug": "madrid-bernabeu", "tipo": "foto", "titulo": "Estadio Santiago Bernabéu - Real Madrid-Real Sociedad", "autor": "Badefa", "licencia": "CC0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Estadio_Santiago_Bernab%C3%A9u_-_Real_Madrid-Real_Sociedad.jpg"}, {"slug": "madrid-metropolitano", "tipo": "foto", "titulo": "Estadio Metropolitano - Atlético de Madrid - Septiembre 2022 (2)", "autor": "Cabeza2000", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Estadio_Metropolitano_-_Atl%C3%A9tico_de_Madrid_-_Septiembre_2022_(2).jpg"}, {"slug": "madrid-intro-video", "tipo": "video", "titulo": "Temple in Madrid", "autor": "Mixkit", "licencia": "Mixkit Stock Video Free License", "url_fuente": "https://mixkit.co/free-stock-video/temple-in-madrid-4146/"}, {"slug": "mallorca-intro", "tipo": "foto", "titulo": "Mallorca schönste Strände Cala Mondrago (30182060844)", "autor": "dronepicr", "licencia": "CC BY 2.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Mallorca_sch%C3%B6nste_Str%C3%A4nde_Cala_Mondrago_(30182060844).jpg"}, {"slug": "mallorca-catedral", "tipo": "foto", "titulo": "Palma Cathedral (La Seu) and reflection at Parc de la Mar", "autor": "Arieleisenhammer", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Palma_Cathedral_(La_Seu)_and_reflection_at_Parc_de_la_Mar.jpg"}, {"slug": "mallorca-bellver", "tipo": "foto", "titulo": "Castell de Bellver (Unsplash)", "autor": "Patrick Baum gecko81de", "licencia": "CC0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Castell_de_Bellver_(Unsplash).jpg"}, {"slug": "mallorca-calo-des-moro", "tipo": "foto", "titulo": "View of the bay at Calo des Moro, Mallorca (Spain) (23899506181)", "autor": "Tommie Hansen from Stockholm, Sweden", "licencia": "CC BY 2.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:View_of_the_bay_at_Calo_des_Moro,_Mallorca_(Spain)_(23899506181).jpg"}, {"slug": "mallorca-kayak", "tipo": "foto", "titulo": "Port-Pin - dsfp00808", "autor": "Pmau", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Port-Pin_-_dsfp00808.jpg"}, {"slug": "mallorca-bote", "tipo": "foto", "titulo": "Palma de Mallorca (Spain)", "autor": "Rene Cortin", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Palma_de_Mallorca_(Spain).jpg"}, {"slug": "mallorca-snorkel", "tipo": "foto", "titulo": "Snorkeling with fried eggs jellyfish", "autor": "Jasmin Kalini", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Snorkeling_with_fried_eggs_jellyfish.jpg"}, {"slug": "mallorca-globo", "tipo": "foto", "titulo": "88 365² En las nubes (8340404211)", "autor": "Andrés Nieto Porras from Palma de Mallorca, España", "licencia": "CC BY-SA 2.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:88_365%C2%B2_En_las_nubes_(8340404211).jpg"}, {"slug": "ext-venecia", "tipo": "foto", "titulo": "Grand Canal Santa Maria della Salute Vaporetto Gondola Venice 01", "autor": "Julian Herzog", "licencia": "CC BY 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Grand_Canal_Santa_Maria_della_Salute_Vaporetto_Gondola_Venice_01.jpg"}, {"slug": "ext-florencia", "tipo": "foto", "titulo": "Ponte Vecchio at sunset from Piazzale Michelangelo Florence 2023 dllu", "autor": "Daniel Lu (User:dllu)", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Ponte_Vecchio_at_sunset_from_Piazzale_Michelangelo_Florence_2023_dllu.jpg"}, {"slug": "ext-roma", "tipo": "foto", "titulo": "Colosseum of Rome and Roman forum", "autor": "Wilfredor", "licencia": "CC0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Colosseum_of_Rome_and_Roman_forum.jpg"}, {"slug": "ext-londres", "tipo": "foto", "titulo": "Big Ben at sunset - 2014-10-27 17-30", "autor": "Colin", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Big_Ben_at_sunset_-_2014-10-27_17-30.jpg"}, {"slug": "ext-amsterdam", "tipo": "foto", "titulo": "Colorful canal houses at golden hour in Damrak avenue Amsterdam the Netherlands", "autor": "Basile Morin", "licencia": "CC BY-SA 4.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Colorful_canal_houses_at_golden_hour_in_Damrak_avenue_Amsterdam_the_Netherlands.jpg"}, {"slug": "ext-paris", "tipo": "foto", "titulo": "Tour eiffel at sunrise from the trocadero", "autor": "Tristan Nitot", "licencia": "CC BY-SA 3.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Tour_eiffel_at_sunrise_from_the_trocadero.jpg"}, {"slug": "mallorca-intro-video", "tipo": "video", "titulo": "Aerial views of the coasts of Mallorca, Spain", "autor": "MindTheGapFPV", "licencia": "CC BY 3.0", "url_fuente": "https://commons.wikimedia.org/wiki/File:Aerial_views_of_the_coasts_of_Mallorca,_Spain.webm"}, {"slug": "mallorca-mar-video", "tipo": "video", "titulo": "A person snorkeling in a turquoise water with reef", "autor": "Mixkit", "licencia": "Mixkit Stock Video Free License", "url_fuente": "https://mixkit.co/free-stock-video/a-person-snorkeling-in-a-turquoise-water-with-reef-1582/"}]/*FIN*/;
+const HAY_VIDEO = new Set(/*VIDEOS*/["bcn-deporte-video", "bcn-intro-video", "madrid-intro-video", "mallorca-intro-video", "mallorca-mar-video"]/*FIN*/);
+
+const CAPITULOS = [
+  { id:"inicio", tab:"Inicio", slides:[
+    { tipo:"portada", foto:"portada", video:"portada-video", dur:7000 },
+    { tipo:"ruta", dur:8000 },
+  ]},
+  { id:"madrid", tab:"Madrid", slides:[
+    { foto:"madrid-intro", rot:"Madrid", kicker:"4 días en Madrid", title:"<em>Madrid</em>", text:"Historia, deporte y cultura en una capital vibrante. A pie, de la <b>Plaza Mayor</b> y el kilómetro cero de la Puerta del Sol al <b>Palacio Real</b>.", dur:8000 },
+    { foto:"madrid-palacio-real", rot:"Madrid", kicker:"Madrid", title:"Palacio Real", text:"Por la calle Arenal y la Plaza de Oriente llegamos al palacio para una <b>visita guiada</b>." },
+    { foto:"madrid-almudena", rot:"Madrid", kicker:"Madrid", title:"Catedral de la Almudena", text:"Junto al palacio, el <b>edificio religioso más importante</b> de Madrid." },
+    { foto:"madrid-debod", video:"madrid-intro-video", rot:"Madrid", kicker:"Madrid", title:"Templo de Debod", text:"Un regalo de Egipto con <b>más de 2.200 años</b>, a pasos de la Plaza de España." },
+    { foto:"madrid-cibeles", rot:"Madrid", kicker:"Madrid", title:"Fuente de Cibeles", text:"Uno de los <b>símbolos más queridos</b> de la ciudad, camino al Paseo del Prado." },
+    { foto:"madrid-prado", rot:"Madrid", kicker:"Madrid", title:"Museo del Prado", text:"<b>Velázquez, El Greco, El Bosco, Goya y Rubens</b>, en uno de los grandes museos del mundo." },
+    { foto:"madrid-retiro", rot:"Madrid", kicker:"Madrid", title:"Parque del Retiro", text:"El <b>Palacio de Cristal</b>, el Estanque Grande y, enfrente, la Puerta de Alcalá." },
+    { foto:"madrid-bernabeu", rot:"Madrid deportiva", kicker:"Madrid deportiva", title:"Santiago Bernabéu", text:"Visita al estadio del <b>Real Madrid</b>." },
+    { foto:"madrid-metropolitano", rot:"Madrid deportiva", kicker:"Madrid deportiva", title:"Riyadh Air Metropolitano", text:"Y el estadio del <b>Atlético de Madrid</b>, el mismo día." },
+  ]},
+  { id:"barcelona", tab:"Barcelona", slides:[
+    { foto:"bcn-intro", video:"bcn-intro-video", rot:"Barcelona", kicker:"5 días en Barcelona", title:"<em>Barcelona</em>", text:"El <b>congreso internacional</b>, Gaudí y el Mediterráneo. Deporte, innovación y bienestar.", dur:8000 },
+    { tipo:"agenda", dur:11000 },
+    { tipo:"equipo", dur:12000 },
+    { tipo:"grid", c:3, dur:11000, kicker:"Visitas técnicas", title:"Visitas <em>prácticas</em>",
+      items:[["bcn-car-sant-cugat","CAR Sant Cugat","Alto rendimiento"],["bcn-inefc","INEFC","Educación física"],["bcn-montjuic","Anillo Olímpico","Montjuïc"],["bcn-museo-barca","Museo del Barça","FC Barcelona"],["bcn-global-performance","Global Performance","Alto rendimiento"],["bcn-soma","Soma Sport","Medicina deportiva"]] },
+    { tipo:"grid", c:2, dur:9000, kicker:"Barcelona deportiva", title:"Estadios y <em>escenarios</em>",
+      items:[["bcn-camp-nou","Spotify Camp Nou",""],["bcn-palau","Palau Blaugrana",""],["bcn-montjuic","Estadi Olímpic",""],["bcn-circuito","Circuito de Barcelona-Cataluña",""]] },
+    { foto:"bcn-camp-nou", video:"bcn-deporte-video", rot:"Barcelona deportiva", kicker:"Barcelona deportiva", title:"Deporte y <em>salud</em>", text:"Visitas técnicas a estadios, <b>centros de alto rendimiento</b> y espacios vinculados al deporte y la salud." , solo_video:true },
+    { foto:"bcn-sagrada-familia", rot:"Barcelona", kicker:"Barcelona", title:"Sagrada Familia", text:"La obra maestra de Gaudí lleva <b>más de 100 años</b> en construcción y todavía no se terminó." },
+    { foto:"bcn-park-guell", rot:"Barcelona", kicker:"Barcelona", title:"Park Güell", text:"Mosaicos y arquitectura modernista de fantasía, con el <b>dragón de colores</b> en la entrada." },
+    { foto:"bcn-casa-batllo", rot:"Barcelona", kicker:"Barcelona", title:"Paseo de Gracia", text:"La avenida más elegante de la ciudad, con la <b>Casa Batlló</b> y <b>La Pedrera</b>." },
+    { foto:"bcn-ramblas", rot:"Barcelona", kicker:"Barcelona", title:"Las Ramblas", text:"De <b>Plaza Cataluña</b> al puerto, entre artistas callejeros, con parada en <b>La Boquería</b>." },
+    { foto:"bcn-gotico", rot:"Barcelona", kicker:"Barcelona", title:"Barrio Gótico", text:"Calles medievales, la Plaza Sant Jaume y la <b>Catedral de Barcelona</b>." },
+    { foto:"bcn-born", rot:"Barcelona", kicker:"Barcelona", title:"El Born", text:"La <b>Basílica de Santa María del Mar</b>, el <b>Museo Picasso</b>, cafés y boutiques." },
+  ]},
+  { id:"mallorca", tab:"Mallorca", slides:[
+    { foto:"mallorca-intro", video:"mallorca-intro-video", rot:"Mallorca", kicker:"4 días en Mallorca", title:"<em>Mallorca</em>", text:"Cambiamos el ritmo: <b>naturaleza, mar</b> y noches para celebrar el cierre del viaje juntos.", dur:8000 },
+    { foto:"mallorca-catedral", rot:"Palma", kicker:"Palma", title:"Catedral de Palma", text:"<b>La Seu</b>, un ícono gótico frente al mar, junto al Palacio Real de la Almudaina." },
+    { foto:"mallorca-bellver", rot:"Palma", kicker:"Palma", title:"Castillo de Bellver", text:"Una <b>fortaleza circular</b> única, con vistas panorámicas a la bahía." },
+    { foto:"mallorca-calo-des-moro", rot:"La isla", kicker:"La isla", title:"Playas y calas", text:"Agua turquesa, <b>calas</b> como Caló des Moro y pueblos para recorrer la isla." },
+    { tipo:"grid", c:2, dur:9000, kicker:"Mallorca", title:"Para <em>vivir la isla</em>",
+      items:[["mallorca-kayak","Excursión en kayak",""],["mallorca-bote","Paseo en bote",""],["mallorca-snorkel","Snorkel tour","","mallorca-mar-video"],["mallorca-globo","Vuelo en globo",""]] },
+  ]},
+  { id:"extensiones", tab:"Extensiones", slides:[
+    { tipo:"grid", c:3, dur:9000, kicker:"Extensión · 7 noches", title:"Venecia, Florencia <em>y Roma</em>", text:"Para seguir viaje: <b>2 noches</b> en Venecia, <b>2</b> en Florencia y <b>3</b> en Roma.",
+      items:[["ext-venecia","Venecia","2 noches"],["ext-florencia","Florencia","2 noches"],["ext-roma","Roma","3 noches"]] },
+    { tipo:"grid", c:3, dur:9000, kicker:"Extensión · 9 noches", title:"Londres, Ámsterdam <em>y París</em>", text:"<b>3 noches</b> en cada ciudad.",
+      items:[["ext-londres","Londres","3 noches"],["ext-amsterdam","Ámsterdam","3 noches"],["ext-paris","París","3 noches"]] },
+  ]},
+  { id:"reserva", tab:"Reservá", slides:[ { tipo:"cierre", dur:0 } ]},
+];
+
+// ---- Plantillas ----
+function media(s, extra = ""){
+  if (s.video && HAY_VIDEO.has(s.video)) return `<div class="media">
+      <video muted playsinline loop preload="none" poster="${FOTO(s.video)}" src="${VIDEO(s.video)}"></video>${extra}</div>`;
+  return `<div class="media"><img class="kb" src="${FOTO(s.foto)}" alt="">${extra}</div>`;
+}
+const rot = s => s.rot ? `<span class="rot">${s.rot}</span>` : "";
+
+function render(s){
+  switch (s.tipo){
+    case "portada": return `
+      ${media(s)}
+      <div class="copy">
+        <img class="logo" src="img/logo-college.png" alt="College">
+        <h1 class="title">Programa<em>Educación Física<br>Nutrición<br>Fisioterapia</em></h1>
+        <div class="cities">MADRID<i>.</i>BARCELONA<i>.</i>MALLORCA</div>
+        <div class="hint">Tocá para avanzar <span>→</span></div>
+      </div>`;
+    case "ruta": return `
+      <div class="copy">
+        <div class="kicker">El viaje</div>
+        <h2 class="title">14 días, <em>3 ciudades</em></h2>
+        <p class="text">Historia, deporte, un <b>congreso internacional</b> y mar.</p>
+        <ul class="legs">
+          <li><div class="code">MVD</div><div><span class="nm">Montevideo</span><span class="ds">Salida desde Carrasco</span></div></li>
+          <li class="city"><button data-go="madrid"><div class="code">MAD</div><div><span class="nm">Madrid</span><span class="ds"><b>4 días</b> · historia y deporte</span></div></button></li>
+          <li class="city"><button data-go="barcelona"><div class="code">BCN</div><div><span class="nm">Barcelona</span><span class="ds"><b>5 días</b> · congreso internacional</span></div></button></li>
+          <li class="city"><button data-go="mallorca"><div class="code">PMI</div><div><span class="nm">Mallorca</span><span class="ds"><b>4 días</b> · mar y cierre</span></div></button></li>
+          <li><div class="code">MVD</div><div><span class="nm">Regreso</span><span class="ds">o seguís con una extensión</span></div></li>
+        </ul>
+      </div>`;
+    case "agenda": return `
+      <div class="copy">
+        <div class="kicker">Barcelona · congreso internacional</div>
+        <h2 class="title">Tres días para <em>aprender</em></h2>
+        <div class="agenda">
+          <div class="dia"><h4>Día 1</h4><p><span>Mañana</span>Conferencia magistral integrada (3 h)</p><p><span>Tarde</span>Segunda conferencia magistral integrada (3 h)</p></div>
+          <div class="dia"><h4>Día 2</h4><p><span>Mañana</span>Seminarios por disciplina (3 h)</p><p><span>Tarde</span>Visitas técnicas y prácticas</p></div>
+          <div class="dia"><h4>Día 3</h4><p><span>Mañana</span>Seminarios por disciplina (3 h)</p><p><span>Tarde</span>Visitas técnicas y prácticas</p><p><span>Noche</span><b>Cena de cierre, diplomas y fiesta</b></p></div>
+        </div>
+      </div>`;
+    case "equipo": return `
+      <div class="copy">
+        <div class="kicker">Congreso · quiénes lo dan</div>
+        <h2 class="title">Referentes en <em>cada disciplina</em></h2>
+        <div class="equipo">
+          <div class="persona"><img src="media/ref-barrios.jpg" alt="Andrés Barrios"><div><small>Director general académico</small><span class="nm">Mag. Andrés Barrios</span><span>Director del IUACJ, sede Maldonado. Docente del ISEF y del IUACJ.</span></div></div>
+          <div class="persona"><img src="media/ref-espar.jpg" alt="Xesco Espar"><div><small>Educación física</small><span class="nm">Mag. Xesco Espar</span><span>Coordinador físico del Fútbol Club Barcelona.</span></div></div>
+          <div class="persona"><img src="media/ref-romero.jpg" alt="Daniel Romero"><div><small>Fisioterapia</small><span class="nm">Dr. Daniel Romero</span><span>Doctor en Ciencias del Deporte, Universidad de Zaragoza.</span></div></div>
+          <div class="persona"><img src="media/ref-gil.jpg" alt="Noemí Gil"><div><small>Nutrición</small><span class="nm">Lic. Noemí Gil</span><span>Directora del Departamento Dietético Internacional de PronoKal Group.</span></div></div>
+        </div>
+      </div>`;
+    case "grid": {
+      const tiles = s.items.map(([f, t, d, v]) => `<figure>${v && HAY_VIDEO.has(v) ? `<video muted playsinline loop preload="none" poster="${FOTO(v)}" src="${VIDEO(v)}"></video>` : `<img src="${FOTO(f)}" alt="" loading="lazy">`}<figcaption>${t}${d ? `<span>${d}</span>` : ""}</figcaption></figure>`).join("");
+      return `
+      <div class="copy">
+        <div class="kicker">${s.kicker}</div>
+        <h2 class="title">${s.title}</h2>
+        ${s.text ? `<p class="text">${s.text}</p>` : ""}
+      </div>
+      <div class="grid c${s.c}">${tiles}</div>`;
+    }
+    case "cierre": {
+      const wa = CONTACTO.whatsapp
+        ? `<a class="cta" href="https://wa.me/${CONTACTO.whatsapp}?text=${encodeURIComponent("Hola College, quiero info del programa Madrid, Barcelona y Mallorca")}" target="_blank" rel="noopener">Quiero mi lugar <small>WhatsApp →</small></a>`
+        : `<div class="cta" aria-disabled="true">Quiero mi lugar <small>WhatsApp a confirmar</small></div>`;
+      return `
+      <div class="copy">
+        <button class="volver" type="button" data-back>← Volver</button>
+        <div class="kicker">Tu lugar</div>
+        <h2 class="title">¿Te sumás <em>al viaje?</em></h2>
+        <p class="text">Escribinos y te contamos <b>fechas, cupos y forma de pago</b>.</p>
+        <div class="ctas">
+          ${wa}
+          <a class="cta alt" href="https://www.instagram.com/${CONTACTO.instagram}/" target="_blank" rel="noopener">Seguinos <small>@${CONTACTO.instagram} →</small></a>
+          <button class="cta alt" type="button" data-go="inicio">Ver el viaje de nuevo <small>↺</small></button>
+        </div>
+        <img class="logo" src="img/logo-college.png" alt="College">
+        ${CREDITOS.length ? `<button class="cred" type="button" data-cred>Créditos de fotos y videos</button>` : ""}
+      </div>`;
+    }
+    default: return `
+      ${media(s, rot(s))}
+      <div class="copy">
+        <div class="kicker">${s.kicker}</div>
+        <h2 class="title">${s.title}</h2>
+        <p class="text">${s.text}</p>
+      </div>`;
+  }
+}
+
+// ---- Motor de historias ----
+CAPITULOS.forEach(c => { c.slides = c.slides.filter(s => !s.solo_video || HAY_VIDEO.has(s.video)); });
+const FLAT = [];
+CAPITULOS.forEach((c, ci) => c.slides.forEach((s, si) => FLAT.push({ ...s, ci, si })));
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $slides = document.getElementById("slides"), $bars = document.getElementById("bars"),
+      $tabs = document.getElementById("tabs"), stage = document.getElementById("stage");
+
+FLAT.forEach(s => {
+  const el = document.createElement("section");
+  el.className = `slide t-${s.tipo || "foto"} ${["agenda","equipo","ruta","cierre"].includes(s.tipo) ? "panel" : ""}`;
+  el.setAttribute("aria-hidden", "true");
+  $slides.appendChild(el);
+});
+CAPITULOS.forEach((c, ci) => {
+  const b = document.createElement("button");
+  b.className = "tab"; b.textContent = c.tab; b.type = "button";
+  b.addEventListener("click", e => { e.stopPropagation(); go(FLAT.findIndex(s => s.ci === ci)); });
+  $tabs.appendChild(b);
+});
+
+let cur = -1, t0 = 0, elapsed = 0, paused = false;
+const rendered = new Set();
+function ensure(i){
+  if (i < 0 || i >= FLAT.length || rendered.has(i)) return;
+  $slides.children[i].innerHTML = render(FLAT[i]);
+  rendered.add(i);
+}
+const dur = s => s.dur ?? 6500;
+
+function go(i){
+  i = Math.max(0, Math.min(FLAT.length - 1, i));
+  const prev = $slides.children[cur];
+  if (prev){
+    prev.classList.remove("on"); prev.setAttribute("aria-hidden", "true");
+    prev.querySelectorAll("video").forEach(v => v.pause());
+  }
+  cur = i; ensure(i); ensure(i + 1); ensure(i + 2);
+  const el = $slides.children[i];
+  el.classList.add("on"); el.setAttribute("aria-hidden", "false");
+  el.querySelectorAll("img.kb").forEach(im => { im.style.animation = "none"; void im.offsetWidth; im.style.animation = ""; });
+  el.querySelectorAll("video").forEach(v => { v.currentTime = 0; v.play().catch(() => {}); });
+  const s = FLAT[i], cap = CAPITULOS[s.ci];
+  $bars.innerHTML = cap.slides.map((_, k) => `<div class="bar ${k < s.si ? "done" : ""}"><i></i></div>`).join("");
+  [...$tabs.children].forEach((b, k) => b.setAttribute("aria-current", k === s.ci ? "true" : "false"));
+  // Centrar la pestaña moviendo solo la tira de pestañas (scrollIntoView corría toda la pantalla).
+  const tab = $tabs.children[s.ci];
+  $tabs.scrollTo({ left: tab.offsetLeft - ($tabs.clientWidth - tab.offsetWidth) / 2, behavior: reduce ? "auto" : "smooth" });
+  elapsed = 0; t0 = performance.now();
+  // En el cierre, los botones reciben el toque y no las zonas de avance.
+  const ultimo = s.tipo === "cierre";
+  document.getElementById("prev").hidden = ultimo;
+  document.getElementById("next").hidden = ultimo;
+}
+
+function tick(now){
+  const s = FLAT[cur], d = dur(s), bar = $bars.children[s.si]?.firstElementChild;
+  if (d === 0){ if (bar) bar.style.width = "100%"; }
+  else if (!paused){
+    const p = Math.min(1, (elapsed + now - t0) / d);
+    if (bar) bar.style.width = (p * 100) + "%";
+    if (p >= 1 && cur < FLAT.length - 1) go(cur + 1);
+  }
+  requestAnimationFrame(tick);
+}
+function pause(v){
+  if (v === paused) return;
+  if (v) elapsed += performance.now() - t0; else t0 = performance.now();
+  paused = v; stage.classList.toggle("paused", v && dur(FLAT[cur]) > 0);
+  $slides.children[cur].querySelectorAll("video").forEach(x => v ? x.pause() : x.play().catch(() => {}));
+}
+
+// Tocar avanza o vuelve; mantener apretado pausa; deslizar cambia de ciudad.
+let held = false, sx = 0, sy = 0, holdTimer = 0;
+function down(e){ held = false; sx = e.clientX; sy = e.clientY; holdTimer = setTimeout(() => { held = true; pause(true); }, 260); }
+function up(dir, e){
+  clearTimeout(holdTimer);
+  if (held){ pause(false); return; }
+  const dx = e.clientX - sx, dy = e.clientY - sy;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)){
+    const ci = FLAT[cur].ci + (dx < 0 ? 1 : -1);
+    if (ci >= 0 && ci < CAPITULOS.length) go(FLAT.findIndex(s => s.ci === ci));
+    return;
+  }
+  go(cur + dir);
+}
+[["prev", -1], ["next", 1]].forEach(([id, dir]) => {
+  const el = document.getElementById(id);
+  el.addEventListener("pointerdown", down);
+  el.addEventListener("pointerup", e => up(dir, e));
+  el.addEventListener("pointercancel", () => { clearTimeout(holdTimer); pause(false); });
+  el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); go(cur + dir); } });
+});
+
+const $cred = document.getElementById("creditos");
+$slides.addEventListener("click", e => {
+  const g = e.target.closest("[data-go]");
+  if (g){ e.stopPropagation(); go(FLAT.findIndex(s => CAPITULOS[s.ci].id === g.dataset.go)); return; }
+  if (e.target.closest("[data-back]")){ e.stopPropagation(); go(cur - 1); return; }
+  if (e.target.closest("[data-cred]")){
+    $cred.innerHTML = `<h3>Créditos</h3><ul>${CREDITOS.map(c => `<li>${c.titulo} · ${c.autor} · ${c.licencia} · <a href="${c.url_fuente}" target="_blank" rel="noopener">fuente</a></li>`).join("")}</ul>
+      <p>Fotos de los centros y del congreso: College.</p><button class="cta alt" type="button" id="cerrar-cred">Cerrar</button>`;
+    $cred.hidden = false;
+  }
+});
+$cred.addEventListener("click", e => { if (e.target.id === "cerrar-cred") $cred.hidden = true; });
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowRight") go(cur + 1);
+  else if (e.key === "ArrowLeft") go(cur - 1);
+  else if (e.key === " " && e.target === document.body){ e.preventDefault(); pause(!paused); }
+});
+let csx = 0;
+$slides.addEventListener("pointerdown", e => { csx = e.clientX; });
+$slides.addEventListener("pointerup", e => { if (FLAT[cur].tipo === "cierre" && e.clientX - csx > 60) go(cur - 1); });
+document.addEventListener("visibilitychange", () => pause(document.hidden));
+
+let inicio = 0;
+const hash = location.hash.slice(1);
+if (hash){ const k = FLAT.findIndex(s => CAPITULOS[s.ci].id === hash); if (k >= 0) inicio = k; }
+go(inicio);
+requestAnimationFrame(tick);
+</script>
+
+</body>
+</html>
