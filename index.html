@@ -242,6 +242,31 @@ const CAPITULOS = [
   { id:"reserva", tab:"Reservá", slides:[ { tipo:"cierre", dur:0 } ]},
 ];
 
+// Mail a College por Gmail (Lucas, 14/10). En iPhone abre la app de Gmail y, si no la tiene, Gmail web;
+// en Android, la app de Gmail (con Gmail web si no está); en la computadora, Gmail web en otra pestaña.
+const GMAIL = (() => {
+  const to = encodeURIComponent(CONTACTO.mail), su = encodeURIComponent(CONTACTO.mail_asunto),
+        body = encodeURIComponent(CONTACTO.mail_texto);
+  const web = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${su}&body=${body}`;
+  return {
+    web,
+    ios: `googlegmail://co?to=${to}&subject=${su}&body=${body}`,
+    android: `intent:${CONTACTO.mail}?subject=${su}&body=${body}#Intent;scheme=mailto;package=com.google.android.gm;S.browser_fallback_url=${encodeURIComponent(web)};end`,
+  };
+})();
+function abrirGmail(e){
+  const ua = navigator.userAgent;
+  const ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  if (/Android/.test(ua)){ e.preventDefault(); location.href = GMAIL.android; }
+  else if (ios){
+    e.preventDefault();
+    const t = setTimeout(() => { if (!document.hidden) location.href = GMAIL.web; }, 1500);
+    document.addEventListener("visibilitychange", () => clearTimeout(t), { once: true });
+    location.href = GMAIL.ios;
+  }
+  // en la computadora sigue el link: Gmail web en otra pestaña
+}
+
 // ---- Plantillas ----
 function media(s, extra = ""){
   if (s.video && HAY_VIDEO.has(s.video)) return `<div class="media">
@@ -319,7 +344,7 @@ function render(s){
         <p class="text">Escribinos y te contamos <b>fechas, cupos y forma de pago</b>.</p>
         <div class="ctas">
           ${wa}
-          <a class="cta" href="mailto:${CONTACTO.mail}?subject=${encodeURIComponent(CONTACTO.mail_asunto)}&body=${encodeURIComponent(CONTACTO.mail_texto)}">Pedir info por mail <small>${CONTACTO.mail} →</small></a>
+          <a class="cta" href="${GMAIL.web}" target="_blank" rel="noopener" data-gmail>Pedir info por mail <small>Gmail →</small></a>
           <a class="cta alt" href="https://www.instagram.com/${CONTACTO.instagram}/" target="_blank" rel="noopener">Seguinos <small>@${CONTACTO.instagram} →</small></a>
           <button class="cta alt" type="button" data-go="inicio">Ver el viaje de nuevo <small>↺</small></button>
         </div>
@@ -450,6 +475,8 @@ $slides.addEventListener("click", e => {
     son.textContent = v.muted ? "Activar sonido" : "Silenciar";
     return;
   }
+  const gm = e.target.closest("[data-gmail]");
+  if (gm){ e.stopPropagation(); abrirGmail(e); return; }
   if (e.target.closest("[data-back]")){ e.stopPropagation(); go(cur - 1); return; }
   if (e.target.closest("[data-cred]")){
     $cred.innerHTML = `<h3>Créditos</h3><ul>${CREDITOS.map(c => `<li>${c.titulo} · ${c.autor} · ${c.licencia} · <a href="${c.url_fuente}" target="_blank" rel="noopener">fuente</a></li>`).join("")}</ul>
