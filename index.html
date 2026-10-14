@@ -77,7 +77,18 @@ b,strong{color:var(--turq);font-weight:700}
 .t-portada .cities{font:500 14px/1 var(--font);letter-spacing:.06em;margin-top:12px;color:var(--text)}
 .t-portada .cities i{color:var(--turq);font-style:normal;font-weight:800;padding:0 4px}
 .t-portada .media{max-height:56%}
-.sonido{position:absolute;right:10px;bottom:10px;z-index:4;font:700 11px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.45);border:0;padding:8px 11px;border-radius:999px;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+/* reel a pantalla completa (primera pantalla): el video ocupa todo y la cabecera va encima */
+.slide.t-reel{padding:0}
+.t-reel .media{max-height:none;border-radius:0}
+.stage.sobre-video .head{background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,0))}
+.stage.sobre-video .bar{background:rgba(255,255,255,.35)}
+.stage.sobre-video .bar i{background:#fff}
+.stage.sobre-video .tab{background:rgba(0,0,0,.25);border-color:rgba(255,255,255,.45);color:#fff}
+.stage.sobre-video .tab[aria-current="true"]{background:var(--turq);border-color:var(--turq)}
+.reel-pie{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:40px 16px calc(env(safe-area-inset-bottom,0px) + 18px);background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.45));pointer-events:none}
+.reel-pie .hint{margin:0;color:#fff;text-align:left}
+.reel-pie .hint span{color:#fff}
+.sonido{position:relative;flex:none;pointer-events:auto;font:700 11px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.45);border:0;padding:8px 11px;border-radius:999px;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .sonido:focus-visible{outline:2px solid var(--turq);outline-offset:2px}
 .hint{text-align:center;font:600 11.5px/1 var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--text-2);margin-top:12px}
 .hint span{display:inline-block;animation:nudge 1.6s ease-in-out infinite;color:var(--turq)}
@@ -178,7 +189,9 @@ const HAY_VIDEO = new Set(/*VIDEOS*/["bcn-deporte-video", "bcn-intro-video", "ma
 
 const CAPITULOS = [
   { id:"inicio", tab:"Inicio", slides:[
-    { tipo:"portada", foto:"portada", video:"portada-video", dur:7000, sigue_video:true },  // reel de College (14/10): la pantalla dura lo que el video
+    // Reel de College (14/10): pantalla completa y dura lo que el video. Deslizar sobre él pasa a la portada.
+    { tipo:"reel", video:"portada-video", sigue_video:true, solo_video:true, dur:7000 },
+    { tipo:"portada", foto:"portada", dur:7000 },
     { tipo:"ruta", dur:8000 },
   ]},
   { id:"madrid", tab:"Madrid", slides:[
@@ -235,8 +248,11 @@ const rot = s => s.rot ? `<span class="rot">${s.rot}</span>` : "";
 
 function render(s){
   switch (s.tipo){
+    case "reel": return media(s, `<div class="reel-pie">
+        <div class="hint">Deslizá para ver el viaje <span>→</span></div>
+        <button class="sonido" type="button" data-sonido>Activar sonido</button></div>`);
     case "portada": return `
-      ${media(s, s.video && HAY_VIDEO.has(s.video) ? `<button class="sonido" type="button" data-sonido>Activar sonido</button>` : "")}
+      ${media(s)}
       <div class="copy">
         <img class="logo" src="img/logo-college.png" alt="College">
         <h1 class="title">Programa<em>Educación Física<br>Nutrición<br>Fisioterapia</em></h1>
@@ -361,6 +377,7 @@ function go(i){
   const s = FLAT[i], cap = CAPITULOS[s.ci];
   $bars.innerHTML = cap.slides.map((_, k) => `<div class="bar ${k < s.si ? "done" : ""}"><i></i></div>`).join("");
   [...$tabs.children].forEach((b, k) => b.setAttribute("aria-current", k === s.ci ? "true" : "false"));
+  stage.classList.toggle("sobre-video", s.tipo === "reel");
   // Centrar la pestaña moviendo solo la tira de pestañas (scrollIntoView corría toda la pantalla).
   const tab = $tabs.children[s.ci];
   $tabs.scrollTo({ left: tab.offsetLeft - ($tabs.clientWidth - tab.offsetWidth) / 2, behavior: reduce ? "auto" : "smooth" });
@@ -400,8 +417,10 @@ function up(dir, e){
   if (held){ pause(false); return; }
   const dx = e.clientX - sx, dy = e.clientY - sy;
   if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)){
+    if (FLAT[cur].tipo === "reel"){ go(cur + (dx < 0 ? 1 : -1)); return; }
     const ci = FLAT[cur].ci + (dx < 0 ? 1 : -1);
     if (ci >= 0 && ci < CAPITULOS.length) go(FLAT.findIndex(s => s.ci === ci));
+    else if (ci < 0) go(0);  // desde el Inicio, deslizar atrás vuelve al reel
     return;
   }
   go(cur + dir);
