@@ -178,7 +178,11 @@ b,strong{color:var(--turq);font-weight:700}
 // ---- Contenido: se cambia acá. Fuente: programa y presentación de College (oct 2026). ----
 const CONTACTO = {
   whatsapp: "59892655343",  // [CONFIRMADO: Lucas, 14/10/2026] donde caen los leads. Solo dígitos, con 598
-  instagram: "college.uy"
+  instagram: "college.uy",
+  // Pedido de Mario (College), 14/10: un toque y se arma el mail desde el teléfono de la persona.
+  mail: "info@college.uy",
+  mail_asunto: "Viaje a España: Educación Física, Fisioterapia y Nutrición",
+  mail_texto: "Deseo información del viaje a España para Educación Física, Fisioterapia y Nutrición"
 };
 // Fotos: media/<slug>.jpg (verticales 1200×1600). Videos: media/<slug>.mp4 con póster media/<slug>.jpg.
 const FOTO = s => `media/${s}.jpg`;
@@ -315,6 +319,7 @@ function render(s){
         <p class="text">Escribinos y te contamos <b>fechas, cupos y forma de pago</b>.</p>
         <div class="ctas">
           ${wa}
+          <a class="cta" href="mailto:${CONTACTO.mail}?subject=${encodeURIComponent(CONTACTO.mail_asunto)}&body=${encodeURIComponent(CONTACTO.mail_texto)}">Pedir info por mail <small>${CONTACTO.mail} →</small></a>
           <a class="cta alt" href="https://www.instagram.com/${CONTACTO.instagram}/" target="_blank" rel="noopener">Seguinos <small>@${CONTACTO.instagram} →</small></a>
           <button class="cta alt" type="button" data-go="inicio">Ver el viaje de nuevo <small>↺</small></button>
         </div>
