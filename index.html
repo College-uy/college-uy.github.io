@@ -177,12 +177,9 @@ b,strong{color:var(--turq);font-weight:700}
 <script>
 // ---- Contenido: se cambia acá. Fuente: programa y presentación de College (oct 2026). ----
 const CONTACTO = {
-  whatsapp: "59892655343",  // [CONFIRMADO: Lucas, 14/10/2026] donde caen los leads. Solo dígitos, con 598
-  instagram: "college.uy",
-  // Pedido de Mario (College), 14/10: un toque y se arma el mail desde el teléfono de la persona.
-  mail: "info@college.uy",
-  mail_asunto: "Viaje a España: Educación Física, Fisioterapia y Nutrición",
-  mail_texto: "Deseo información del viaje a España para Educación Física, Fisioterapia y Nutrición"
+  // [CONFIRMADO: Lucas, 23/10/2026] el cierre lleva solo al formulario de inscripción (sin WhatsApp ni mail)
+  inscripcion: "https://www.cognitoforms.com/CollegeUy/Inscripci%C3%B3nViajeEuropaSeptiembre2027",
+  instagram: "college.uy"
 };
 // Fotos: media/<slug>.jpg (verticales 1200×1600). Videos: media/<slug>.mp4 con póster media/<slug>.jpg.
 const FOTO = s => `media/${s}.jpg`;
@@ -241,31 +238,6 @@ const CAPITULOS = [
   ]},
   { id:"reserva", tab:"Reservá", slides:[ { tipo:"cierre", dur:0 } ]},
 ];
-
-// Mail a College por Gmail (Lucas, 14/10). En iPhone abre la app de Gmail y, si no la tiene, Gmail web;
-// en Android, la app de Gmail (con Gmail web si no está); en la computadora, Gmail web en otra pestaña.
-const GMAIL = (() => {
-  const to = encodeURIComponent(CONTACTO.mail), su = encodeURIComponent(CONTACTO.mail_asunto),
-        body = encodeURIComponent(CONTACTO.mail_texto);
-  const web = `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${su}&body=${body}`;
-  return {
-    web,
-    ios: `googlegmail://co?to=${to}&subject=${su}&body=${body}`,
-    android: `intent:${CONTACTO.mail}?subject=${su}&body=${body}#Intent;scheme=mailto;package=com.google.android.gm;S.browser_fallback_url=${encodeURIComponent(web)};end`,
-  };
-})();
-function abrirGmail(e){
-  const ua = navigator.userAgent;
-  const ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
-  if (/Android/.test(ua)){ e.preventDefault(); location.href = GMAIL.android; }
-  else if (ios){
-    e.preventDefault();
-    const t = setTimeout(() => { if (!document.hidden) location.href = GMAIL.web; }, 1500);
-    document.addEventListener("visibilitychange", () => clearTimeout(t), { once: true });
-    location.href = GMAIL.ios;
-  }
-  // en la computadora sigue el link: Gmail web en otra pestaña
-}
 
 // ---- Plantillas ----
 function media(s, extra = ""){
@@ -333,18 +305,14 @@ function render(s){
       <div class="grid c${s.c}">${tiles}</div>`;
     }
     case "cierre": {
-      const wa = CONTACTO.whatsapp
-        ? `<a class="cta" href="https://wa.me/${CONTACTO.whatsapp}?text=${encodeURIComponent("Hola College, quiero info del programa Madrid, Barcelona y Mallorca")}" target="_blank" rel="noopener">Quiero mi lugar <small>WhatsApp →</small></a>`
-        : `<div class="cta" aria-disabled="true">Quiero mi lugar <small>WhatsApp a confirmar</small></div>`;
       return `
       <div class="copy">
         <button class="volver" type="button" data-back>← Volver</button>
         <div class="kicker">Tu lugar</div>
         <h2 class="title">¿Te sumás <em>al viaje?</em></h2>
-        <p class="text">Escribinos y te contamos <b>fechas, cupos y forma de pago</b>.</p>
+        <p class="text">Inscribite y te contamos <b>fechas, cupos y forma de pago</b>.</p>
         <div class="ctas">
-          ${wa}
-          <a class="cta" href="${GMAIL.web}" target="_blank" rel="noopener" data-gmail>Pedir info por mail <small>Gmail →</small></a>
+          <a class="cta" href="${CONTACTO.inscripcion}" target="_blank" rel="noopener">Quiero mi lugar <small>Inscripción →</small></a>
           <a class="cta alt" href="https://www.instagram.com/${CONTACTO.instagram}/" target="_blank" rel="noopener">Seguinos <small>@${CONTACTO.instagram} →</small></a>
           <button class="cta alt" type="button" data-go="inicio">Ver el viaje de nuevo <small>↺</small></button>
         </div>
@@ -475,8 +443,6 @@ $slides.addEventListener("click", e => {
     son.textContent = v.muted ? "Activar sonido" : "Silenciar";
     return;
   }
-  const gm = e.target.closest("[data-gmail]");
-  if (gm){ e.stopPropagation(); abrirGmail(e); return; }
   if (e.target.closest("[data-back]")){ e.stopPropagation(); go(cur - 1); return; }
   if (e.target.closest("[data-cred]")){
     $cred.innerHTML = `<h3>Créditos</h3><ul>${CREDITOS.map(c => `<li>${c.titulo} · ${c.autor} · ${c.licencia} · <a href="${c.url_fuente}" target="_blank" rel="noopener">fuente</a></li>`).join("")}</ul>
